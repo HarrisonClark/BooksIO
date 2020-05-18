@@ -27,6 +27,7 @@ export default function App() {
   function ShowBooks() {
     const [books, setBooks] = useState([]);
     const classes = useStyles();
+    const [toggle, Toggle] = useState(true);
 
     useEffect(() => {
       firebase.auth().onAuthStateChanged((user) => {
@@ -40,13 +41,27 @@ export default function App() {
 
     useEffect(() => {
       if (uid) {
-        db.collection(uid)
+        setBooks([]);
+        db.collection("users")
+          .doc(uid)
+          .collection("library")
           .get()
           .then((snapshot) => {
             snapshot.forEach((doc) => {
               let newBook = { id: doc.id, ...doc.data() };
               setBooks((b) => [...b, newBook]);
             });
+          });
+      }
+    }, [toggle]);
+
+    useEffect(() => {
+      if (uid) {
+        db.collection("users")
+          .doc(uid)
+          .collection("library")
+          .onSnapshot(function (doc) {
+            Toggle((t) => !t);
           });
       }
     }, []);

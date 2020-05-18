@@ -40,12 +40,17 @@ export default function Book({
         <>
           <Button
             onClick={() => {
-              console.log(title);
-              let addBook = db.collection(uid).doc(id).set({
-                title: title,
-                author: author,
-                img: img,
-              });
+              console.log(title + " " + uid + " " + id);
+              let addBook = db
+                .collection("users")
+                .doc(uid)
+                .collection("library")
+                .doc(id)
+                .set({
+                  title: title,
+                  author: author,
+                  img: img,
+                });
               console.log(addBook);
             }}
             color="primary"
@@ -59,8 +64,13 @@ export default function Book({
         <>
           <Button
             onClick={() => {
-              let deleteBook = db.collection(uid).doc(id).delete();
-              setDeleted(true);
+              let deleteBook = db
+                .collection("users")
+                .doc(uid)
+                .collection("library")
+                .doc(id)
+                .delete();
+              // setDeleted(true);
               console.log(deleteBook);
             }}
             color="primary"

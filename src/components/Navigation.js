@@ -39,13 +39,11 @@ export default function Navigation({
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-  const [email, setEmail] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
-        setEmail(user.email);
       } else {
         setAuthenticated(false);
       }
@@ -169,63 +167,87 @@ export default function Navigation({
       onClose(selectedValue);
     };
 
-    return (
-      <Dialog
-        onClose={handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={open}
-      >
-        <form onSubmit={onSubmit} style={{ width: "350px" }}>
-          <Box className={classes.container}>
-            <div className={classes.break}></div>
-
-            <TextField
-              label="email"
-              variant="filled"
-              onChange={onEmailChange}
-              value={emailField}
-              style={{
-                width: "250px",
-                marginBottom: "25px",
-                marginTop: "15px",
-              }}
-            />
-            <div className={classes.break}></div>
-            <TextField
-              label="password"
-              type="password"
-              variant="filled"
-              onChange={onPasswordChange}
-              value={passwordField}
-              style={{ width: "250px", marginBottom: "25px" }}
-            />
-            <div className={classes.break}></div>
-            <Button
-              variant="outlined"
-              size="large"
-              type="submit"
-              style={{ marginBottom: "15px" }}
-            >
-              {haveAccount ? "Login" : "SignUp"}
-            </Button>
-            <div className={classes.break}></div>
+    if (authenticated) {
+      return (
+        <Dialog
+          onClose={handleClose}
+          aria-labelledby="simple-dialog-title"
+          open={open}
+        >
+          <Box className={classes.container} style={{ width: "350px" }}>
+            Profile
             <Button
               variant="outlined"
               size="large"
               onClick={() => {
-                setHaveAccount((h) => !h);
-                console.log("click");
+                firebase.auth().signOut();
               }}
               style={{ marginBottom: "15px" }}
             >
-              {haveAccount
-                ? "Don't Have An Account?"
-                : "Already Have An Account?"}
+              Sign Out
             </Button>
           </Box>
-        </form>
-      </Dialog>
-    );
+        </Dialog>
+      );
+    } else {
+      return (
+        <Dialog
+          onClose={handleClose}
+          aria-labelledby="simple-dialog-title"
+          open={open}
+        >
+          <form onSubmit={onSubmit} style={{ width: "350px" }}>
+            <Box className={classes.container}>
+              <div className={classes.break}></div>
+
+              <TextField
+                label="email"
+                variant="filled"
+                onChange={onEmailChange}
+                value={emailField}
+                style={{
+                  width: "250px",
+                  marginBottom: "25px",
+                  marginTop: "15px",
+                }}
+              />
+              <div className={classes.break}></div>
+              <TextField
+                label="password"
+                type="password"
+                variant="filled"
+                onChange={onPasswordChange}
+                value={passwordField}
+                style={{ width: "250px", marginBottom: "25px" }}
+              />
+              <div className={classes.break}></div>
+              <Button
+                variant="outlined"
+                size="large"
+                type="submit"
+                style={{ marginBottom: "15px" }}
+              >
+                {haveAccount ? "Login" : "SignUp"}
+              </Button>
+              <div className={classes.break}></div>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={() => {
+                  setHaveAccount((h) => !h);
+                  console.log("click");
+                }}
+                style={{ marginBottom: "15px" }}
+              >
+                {haveAccount
+                  ? "Don't Have An Account?"
+                  : "Already Have An Account?"}
+              </Button>
+            </Box>
+          </form>
+        </Dialog>
+      );
+    }
   }
 
   function LoginProfile() {
@@ -238,7 +260,12 @@ export default function Navigation({
     };
 
     if (authenticated) {
-      return <Box>Profile</Box>;
+      return (
+        <>
+          <Button onClick={handleClickOpen}>Profile</Button>
+          <LoginDialog open={open} onClose={handleClose} />
+        </>
+      );
     } else {
       return (
         <>
