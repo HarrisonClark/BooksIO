@@ -16,6 +16,7 @@ const useStyles = makeStyles({
 });
 
 export default function App() {
+  const [uid, setUid] = useState(null);
   return (
     <Box>
       <Navigation search={true} />
@@ -28,19 +29,32 @@ export default function App() {
     const classes = useStyles();
 
     useEffect(() => {
-      db.collection("Library")
-        .get()
-        .then((snapshot) => {
-          snapshot.forEach((doc) => {
-            let newBook = { id: doc.id, ...doc.data() };
-            setBooks((b) => [...b, newBook]);
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          setUid(user.uid);
+        } else {
+          setUid(null);
+        }
+      });
+    }, []);
+
+    useEffect(() => {
+      if (uid) {
+        db.collection(uid)
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              let newBook = { id: doc.id, ...doc.data() };
+              setBooks((b) => [...b, newBook]);
+            });
           });
-        });
+      }
     }, []);
 
     if (!books) {
       return <h1> Loading </h1>;
     } else {
+      console.log(books);
       return (
         <Box>
           <h1 style={{ textAlign: "center" }}>Your Library</h1>
@@ -53,6 +67,7 @@ export default function App() {
                 img={book.img}
                 author={book.author}
                 inLibrary={true}
+                uid={uid}
               />
             ))}
           </Box>

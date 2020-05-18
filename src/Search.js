@@ -27,10 +27,11 @@ const useStyles = makeStyles({
 
 export default function App() {
   const [query, setQuery] = useState(null);
+  const [uid, setUid] = useState(null);
   const classes = useStyles();
   return (
     <Box>
-      <Navigation library={true} />
+      <Navigation library={true} setUid={setUid} />
       <Container>
         <Search />
       </Container>
@@ -91,6 +92,7 @@ export default function App() {
               title={book.title}
               img={book.image}
               author={book.author}
+              uid={uid}
             />
           ))}
         </Box>

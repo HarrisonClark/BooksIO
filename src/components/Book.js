@@ -27,6 +27,7 @@ export default function Book({
   img,
   author,
   id,
+  uid,
   inLibrary = false,
   ...props
 }) {
@@ -40,7 +41,7 @@ export default function Book({
           <Button
             onClick={() => {
               console.log(title);
-              let addBook = db.collection("Library").doc(id).set({
+              let addBook = db.collection(uid).doc(id).set({
                 title: title,
                 author: author,
                 img: img,
@@ -58,7 +59,7 @@ export default function Book({
         <>
           <Button
             onClick={() => {
-              let deleteBook = db.collection("Library").doc(id).delete();
+              let deleteBook = db.collection(uid).doc(id).delete();
               setDeleted(true);
               console.log(deleteBook);
             }}

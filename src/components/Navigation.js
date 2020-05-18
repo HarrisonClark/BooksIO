@@ -31,24 +31,25 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Navigation({ library = false, search = false }) {
+export default function Navigation({
+  library = false,
+  search = false,
+  setUid,
+}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
   const [email, setEmail] = useState(null);
-  const [uid, setUid] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
         setEmail(user.email);
-        setUid(user.uid);
       } else {
         setAuthenticated(false);
       }
     });
-    console.log("hello");
   }, []);
 
   function LibraryNav() {
