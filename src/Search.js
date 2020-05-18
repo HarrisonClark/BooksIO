@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import Book from "./components/Book";
+import Navigation from "./components/Navigation";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import NavLink from "react-router-dom/NavLink";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   container: {
+    display: "flex",
+    flexWrap: "wrap",
     justifyContent: "center",
-    width: "100%",
+  },
+  title: {
+    flexGrow: 1,
+  },
+  appBar: {
+    marginBottom: "25px",
+  },
+  break: {
+    flexBasis: "100%",
+    height: "0",
   },
 });
 
@@ -19,17 +29,11 @@ export default function App() {
   const [query, setQuery] = useState(null);
   const classes = useStyles();
   return (
-    <Box className={classes.container}>
+    <Box>
+      <Navigation library={true} />
       <Container>
         <Search />
       </Container>
-
-      <Button variant="contained" size="large">
-        <NavLink class="Button" to={"/library/"}>
-          {" "}
-          View Your Library{" "}
-        </NavLink>
-      </Button>
 
       <Results />
     </Box>
@@ -49,15 +53,20 @@ export default function App() {
     };
 
     return (
-      <form onSubmit={onSubmit}>
-        <TextField
-          label=""
-          variant="filled"
-          onChange={onChange}
-          value={queryField}
-        />
-        <br />
-        <Button type="submit">Search</Button>
+      <form onSubmit={onSubmit} className={classes.form}>
+        <Box className={classes.container}>
+          <TextField
+            label=""
+            variant="filled"
+            onChange={onChange}
+            value={queryField}
+            style={{ width: "50%", marginBottom: "25px" }}
+          />
+          <div className={classes.break}></div>
+          <Button variant="outlined" size="large" type="submit">
+            Search
+          </Button>
+        </Box>
       </form>
     );
   }
@@ -75,7 +84,7 @@ export default function App() {
     function ShowBooks() {
       console.log(books);
       return (
-        <>
+        <Box className={classes.container}>
           {books.map((book) => (
             <Book
               id={book.id}
@@ -84,7 +93,7 @@ export default function App() {
               author={book.author}
             />
           ))}
-        </>
+        </Box>
       );
     }
 
