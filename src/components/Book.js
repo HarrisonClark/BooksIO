@@ -71,10 +71,10 @@ export default function Book({
     }
   }
   if (deleted) {
-    return <div></div>;
+    return <div key={id}></div>;
   }
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} key={id}>
       <CardActionArea>
         <CardMedia className={classes.media} image={img} title={title} />
         <CardContent>

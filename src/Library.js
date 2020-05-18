@@ -31,16 +31,12 @@ export default function App() {
       db.collection("Library")
         .get()
         .then((snapshot) => {
-          console.log(snapshot);
           snapshot.forEach((doc) => {
             let newBook = { id: doc.id, ...doc.data() };
             setBooks((b) => [...b, newBook]);
           });
         });
     }, []);
-
-    console.log("hello");
-    console.log(books);
 
     if (!books) {
       return <h1> Loading </h1>;
@@ -51,6 +47,7 @@ export default function App() {
           <Box className={classes.container}>
             {books.map((book) => (
               <Book
+                key={book.id}
                 id={book.id}
                 title={book.title}
                 img={book.img}
