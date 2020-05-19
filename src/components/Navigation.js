@@ -31,19 +31,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Navigation({
-  library = false,
-  search = false,
-  setUid,
-}) {
+export default function Navigation({ library = false, search = false }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
-
+  const [uid, setUid] = useState(null);
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setAuthenticated(true);
+        setUid(user.uid);
       } else {
         setAuthenticated(false);
       }
@@ -259,11 +256,16 @@ export default function Navigation({
       setOpen(false);
     };
 
+    let history = useHistory();
+
+    function pushUser() {
+      history.push("/user/" + uid);
+    }
+
     if (authenticated) {
       return (
         <>
-          <Button onClick={handleClickOpen}>Profile</Button>
-          <LoginDialog open={open} onClose={handleClose} />
+          <Button onClick={pushUser}>Profile</Button>
         </>
       );
     } else {

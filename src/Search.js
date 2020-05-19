@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     <Box>
-      <Navigation library={true} setUid={setUid} />
+      <Navigation library={true} />
       <Container>
         <Search />
       </Container>
