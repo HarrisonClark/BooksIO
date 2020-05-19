@@ -77,7 +77,7 @@ export default function App() {
           />
           <div className={classes.break}></div>
           <Button variant="outlined" size="large" type="submit">
-            Search
+            Search Doesn't Work on Netlify
           </Button>
         </Box>
       </form>
