@@ -1,5 +1,6 @@
 https://books-io.herokuapp.com
 
+Static Files Also Hosted on https://keen-thompson-a49324.netlify.app
 ## Available Scripts
 
 In the project directory, you can run:
