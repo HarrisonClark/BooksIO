@@ -8,6 +8,15 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import firebase from "./firebase";
 
+export default function Search() {
+  return (
+    <>
+      <Navigation library={true} />
+      <SearchAndResults />
+    </>
+  );
+}
+
 const useStyles = makeStyles({
   container: {
     display: "flex",
@@ -26,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function App() {
+function SearchAndResults() {
   const [query, setQuery] = useState(null);
   const [uid, setUid] = useState(null);
   const classes = useStyles();
@@ -42,17 +51,13 @@ export default function App() {
   }, []);
 
   return (
-    <Box>
-      <Navigation library={true} />
-      <Container>
-        <Search />
-      </Container>
-
+    <Container>
+      <SearchBar />
       <Results />
-    </Box>
+    </Container>
   );
 
-  function Search() {
+  function SearchBar() {
     const [queryField, setQueryField] = useState("");
 
     const onChange = (e) => {

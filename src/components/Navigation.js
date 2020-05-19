@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -9,7 +9,6 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
-
 import firebase from "../firebase";
 import { useHistory } from "react-router-dom";
 
@@ -55,11 +54,7 @@ export default function Navigation({ library = false, search = false }) {
     }
 
     if (library) {
-      return (
-        <Button color="inherit" onClick={handleClick}>
-          View Your Library
-        </Button>
-      );
+      return <Button onClick={handleClick}>View Your Library</Button>;
     } else {
       return <div />;
     }
@@ -73,11 +68,7 @@ export default function Navigation({ library = false, search = false }) {
     }
 
     if (search) {
-      return (
-        <Button color="inherit" onClick={handleClick}>
-          Search for Books
-        </Button>
-      );
+      return <Button onClick={handleClick}>Search for Books</Button>;
     } else {
       return <div />;
     }

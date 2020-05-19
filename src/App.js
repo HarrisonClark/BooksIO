@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Search from "./Search";
 import Library from "./Library";
 import Profile from "./Profile";
