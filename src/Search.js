@@ -82,7 +82,7 @@ function SearchAndResults() {
           />
           <div className={classes.break}></div>
           <Button variant="outlined" size="large" type="submit">
-            Search
+            Search Doesn't Work on Netlify. Just changing more stuff
           </Button>
         </Box>
       </form>
